@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src 'self' https://fonts.gstatic.com;
+        script-src 'self';"> 
+    <title>FinWise - Login</title>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="icon">
+                <span>$</span>
+            </div>
+            <h1>FINWISE</h1>
+        </div>
+
+        <div class="login-box">
+            <input type="email" id="email" placeholder="Email">
+            <span class="error-message" id="email-error"></span>
+
+            <input type="password" id="password" placeholder="Senha">
+            <span class="error-message" id="password-error"></span>
+
+            <div class="options">
+                <div class="box">
+                    
+                        <input type="checkbox" id="remember"> 
+                        <p>Lembre-se de mim</p>
+                    
+                </div>
+                <div class="textPassword">
+                    <p><a href="../restart_senha/restart_senha.html" class="forgot-password">Esqueceu a sua senha?</a></p>
+                </div>
+            </div>
+            <button class="login-btn"  id="login-btn">Login</button>
+            <p>Você ainda não tem uma conta? <a href="../criar_conta/criar_conta.html">Criar conta</a></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

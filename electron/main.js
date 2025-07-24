@@ -1,0 +1,122 @@
+const electron = require('electron');
+const { app, BrowserWindow, ipcMain } = electron;
+const path = require('node:path')
+const sqlite3 = require('sqlite3').verbose();
+
+const db = new sqlite3.Database(path.join(__dirname, 'bd_finance.db'), (err) => {
+     if (err) {
+        console.error('Erro ao conectar ao banco de dados:', err.message);
+    } else {
+        console.log('Conectado ao banco de dados SQLite.');
+        
+        // Cria a tabela se não existir
+        db.run(`
+            CREATE TABLE IF NOT EXISTS usuarios (
+                id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
+                email TEXT NOT NULL UNIQUE,
+                nome_completo TEXT NOT NULL,
+                username TEXT NOT NULL UNIQUE,
+                senha TEXT NOT NULL            
+            )
+        `, (err) => {
+            if (err) {
+                console.error('Erro ao criar tabela:', err.message);
+            } else {
+                console.log('Tabela usuarios criada/verificada');
+            }
+        });
+    }
+});
+
+db.serialize(() => {
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS despesas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            titulo TEXT NOT NULL,
+            descricao TEXT,
+            categoria TEXT NOT NULL,
+            valor REAL NOT NULL,
+            id_usuario INTEGER NOT NULL,
+            FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
+        )
+    `, (err) => {
+        if (err) console.error("Erro ao criar tabela financas:", err.message);
+        else console.log("✅ Tabela 'financas' criada com sucesso!");
+    });
+});
+var mainWindow = null;
+async function createWindow(){
+    mainWindow = new BrowserWindow({
+        width: 1220,
+        height: 800,
+        
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+            sandbox: true,          
+            contextIsolation: true, 
+            nodeIntegration: false  
+
+          }
+       
+    });
+
+
+
+    await mainWindow.loadFile('src/pages/login/index.html');
+    
+
+}
+
+app.whenReady().then(()=>{
+
+    createWindow()
+   
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+          createWindow()
+        }
+      })
+})
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+      app.quit()
+    }
+})
+
+
+ipcMain.handle('criar-usuario', (_, usuario) => {
+    return new Promise((resolve, reject) => {
+    
+        if (!usuario.email || !usuario.nome || !usuario.username || !usuario.senha) {
+            return reject('Todos os campos são obrigatórios');
+        }
+
+        db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='usuarios'", (err, row) => {
+            if (err) return reject(err.message);
+            if (!row) return reject('Tabela usuarios não existe');
+
+            const query = `INSERT INTO usuarios (email, nome_completo, username, senha) VALUES (?, ?, ?, ?)`;
+            db.run(query, [usuario.email, usuario.nome, usuario.username, usuario.senha], function(err) {
+                if (err) reject(err.message);
+                else resolve({ id_usuario: this.lastID });
+            });
+        });
+    });
+});
+
+ipcMain.handle('login', (_, loginData) => {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT * FROM usuarios WHERE email = ? AND senha = ?`;
+        db.get(query, [loginData.email, loginData.senha], (err, row) => {
+            if (err) reject(err.message);
+            else if (row) resolve(row);
+            else resolve(null);
+        });
+    });
+});
+
+module.exports = db;

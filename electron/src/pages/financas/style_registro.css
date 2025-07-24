@@ -1,0 +1,519 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  header {
+    background-color: #145c3c;
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+  }
+  
+  .search-bar {
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .search-bar input {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #145c3c;
+    width: 50%;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .tabs button {
+    background-color: #145c3c;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .card {
+    background-color: #e9fce9;
+    margin: 1rem auto;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    width: 90%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .card img {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+  }
+  
+  .card-content {
+    flex: 1;
+    margin-left: 1rem;
+  }
+  
+  .card-content h3 {
+    color: #521b1b;
+  }
+  
+  .card-content p {
+    margin: 0.5rem 0;
+  }
+  
+  .card-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .card-buttons button {
+    padding: 0.3rem 0.5rem;
+    border-radius: 5px;
+    border: none;
+  }
+  
+  .variavel {
+    background-color: #fff;
+    border: 1px solid #145c3c;
+  }
+  
+  .fixo {
+    background-color: #145c3c;
+    color: white;
+  }
+  
+  .card-right {
+    text-align: right;
+  }
+  
+  .favorite {
+    font-size: 1.5rem;
+    color: #145c3c;
+    cursor: pointer;
+  }
+  
+  .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #145c3c;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem 0.5rem;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 10;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .footer-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  
+  .footer-item.highlight {
+    background-color: #1f7d57;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  }
+  
+  .icon-circle {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    color: #145c3c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+  
+  .footer-title {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  
+  .footer-sub {
+    font-size: 0.85rem;
+    color: #d9ffd9;
+  }
+  
+  .footer-salary {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .footer-button {
+    background-color: white;
+    color: #145c3c;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    margin-left: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .footer-button:hover {
+    background-color: #e6f2e6;
+  }
+
+  .turbo-button {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    background-color: white;
+    color: #145c3c;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+  
+  .turbo-button:hover {
+    background-color: #e0ffe0;
+  }
+  
+  .turbo-button img {
+    margin-left: 8px;
+    width: 28px;
+    height: 28px;
+  }
+  
+  .filter-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+  }
+  
+  .left-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .right-button {
+    margin-top: 0.5rem;
+  }
+  
+  .add-button {
+    background-color: #1c5e41;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .add-button:hover {
+    background-color: #167d54;
+  }
+
+  .salary-input {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-right: 8px;
+    width: 100px;
+  }
+  
+  .save-salary-button {
+    background-color: #1c5e41;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .save-salary-button:hover {
+    background-color: #167d54;
+  }
+  
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: #059259;
+    margin: 10% auto;
+    padding: 20px;
+    width: 300px;
+    border-radius: 12px;
+    box-shadow: white;
+  }
+  
+  .modal-content h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+  }
+  
+  .modal-content input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  
+  }
+  
+  .modal-content button[type="submit"] {
+    width: 50%;
+    padding: 3px;
+    background-color: #f8fafc;
+    border: none;
+    color: #059259;
+    border-radius: 6px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+  }
+  #financeForm label {
+    color: #26422f;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  
+  .close {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .search-bar input {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    flex: 1;
+  }
+  
+  .search-button {
+    padding: 6px 12px;
+    font-size: 14px;
+    background-color: #145c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .search-button:hover {
+    background-color: #145c3c;
+  }
+
+  /* Container principal dos botões de filtro */
+.filter-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: #f6f8f6;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Botões da esquerda */
+.left-buttons button {
+  padding: 8px 14px;
+  margin-right: 8px;
+  font-size: 14px;
+  color: white;
+  background-color: #59a570;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.left-buttons button:hover {
+  background-color: #59a570;
+}
+
+/* Botão com seta */
+.arrow-button {
+  background-color: #59a570;
+  font-weight: bold;
+  color: white;
+}
+
+/* Botão da direita */
+.right-button .add-button {
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background-color: #59a570;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.right-button .add-button:hover {
+  background-color: #59a570;
+}
+
+@media (max-width: 600px) {
+  .filter-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .left-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .left-buttons button,
+  .right-button .add-button {
+    margin-bottom: 8px;
+  }
+
+  .right-button {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+  /* Rodapé principal */
+.footer {
+  background-color: #145c3c;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #d1d5db;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Caixa do conteúdo no rodapé */
+.footer-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Título do rodapé */
+.footer-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+/* Área de salário */
+.salary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: white;
+}
+
+/* Ícone de dinheiro */
+.money-icon {
+  font-size: 18px;
+}
+
+/* Valor do salário */
+#salary-amount {
+  font-weight: 600;
+  font-size: 16px;
+  color: #10b981; /* Verde para saldo positivo */
+}
+
+/* Botão de atualizar salário */
+.income-button {
+  padding: 6px 12px;
+  font-size: 13px;
+  background-color: #59a570;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.income-button:hover {
+  background-color: #59a570;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+/* Bloco central do rodapé: total de gastos */
+.footer-summary {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: white; 
+
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.summary-label {
+  margin-right: 6px;
+  color: white;
+}
+
+  
+  
+  

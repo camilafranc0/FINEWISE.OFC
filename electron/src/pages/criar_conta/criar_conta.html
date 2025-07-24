@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinWise - Criar Conta</title>
+    <link rel="stylesheet" href="style_create.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <a href="../login/index.html" class="back-button">&lt;</a>
+            <h1>CRIE A SUA CONTA</h1>
+            <div class="menu-icon">&#9776;</div>
+        </header>
+
+        <div class="register-box">
+            <input type="email" id="email" placeholder="Email">
+            <span class="error-message" id="email-error"></span>
+
+            <input type="text" id="full-name" placeholder="Nome completo">
+            <span class="error-message" id="name-error"></span>
+
+            <input type="text" id="username" placeholder="Username">
+            <span class="error-message" id="username-error"></span>
+
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Senha">
+                <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
+            </div>
+            <span class="error-message" id="password-error"></span>
+
+            <div class="password-container">
+                <input type="password" id="confirm-password" placeholder="Repita sua senha">
+                <span class="toggle-password" onclick="togglePassword('confirm-password')">👁️</span>
+            </div>
+            <span class="error-message" id="confirm-password-error"></span>
+
+            <button class="register-btn" id="register-btn">Criar conta</button>
+        </div>
+    </div>
+
+    <script src="script_create.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suas Finanças</title>
+  <link rel="stylesheet" href="style_registro.css">
+</head>
+<footer class="footer">
+  </div>
+  
+  <div class="footer-box">
+    <div class="footer-label">Meu salário:</div>
+    <div class="salary">
+      <span class="money-icon">💰</span>
+      <span id="salary-amount">$ </span>
+      <button class="income-button" onclick="toggleSalaryInput()">Atualizar</button>
+    </div>
+    <div id="salary-input-container" style="display: none; margin-top: 0.5rem;">
+      <input type="number" id="new-salary" placeholder="Novo salário" class="salary-input" />
+      <button class="save-salary-button" onclick="updateSalary()">Salvar</button>
+    </div>
+    
+  </div>
+   
+   <div class="footer-summary">
+    <span class="summary-label">Total de gastos:</span>
+    <span id="total-gastos">R$ 0,00</span>
+  </div>
+
+  <a href="../chatIA/chat.html" class="turbo-button">
+    <span>Turbinar economias</span>
+    <img src="https://img.icons8.com/ios-filled/50/scooter.png" alt="Scooter" class="footer-img"/>
+  </a>
+  
+  
+</footer>
+
+<body>
+  <header>
+    SUAS FINANÇAS 💲
+  </header>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Procure os seus gastos.">
+    <button class="search-button">🔍</button>
+  </div>
+  
+
+  <div class="filter-buttons">
+    <div class="left-buttons">
+      <button>Alimentação</button>
+      <button>Lazer</button>
+      <button>Gastos fixos</button>
+      <button>Extras</button>
+      <button class="arrow-button">➤</button>
+    </div>
+    <div class="right-button">
+      <button class="add-button">Cadastrar Finanças</button>
+    </div>
+  </div>
+
+<div id="financeModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3>Cadastrar Finanças</h3>
+    <form id="financeForm">
+      <label for="title">Título:</label>
+      <input type="text" id="title" name="title" required>
+      
+      <label for="description">Descrição:</label>
+      <input type="text" id="description" name="description" required>
+      
+      <label for="category">Categoria:</label>
+      <input type="text" id="category" name="category" required>
+      
+      <label for="value">Valor:</label>
+      <input type="number" id="value" name="value" step="0.01" required>
+      
+      <button type="submit">Salvar</button>
+    </form>
+  </div>
+</div>
+
+
+  <div id="cards"></div>
+
+  <div class="bottom-bar">
+    <div>
+      💲 Turbinar economias
+    </div>
+  <div>
+      Meu salario: <strong>$ 54.54</strong>
+      <button>Renda 1</button>
+    </div>
+  </div>
+
+  <script src="script_registro.js"></script>
+</body>
+</html>
