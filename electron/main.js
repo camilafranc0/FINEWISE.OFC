@@ -9,6 +9,7 @@ const db = new sqlite3.Database(path.join(__dirname, 'bd_finance.db'), (err) => 
     } else {
         console.log('Conectado ao banco de dados SQLite.');
         
+        
         // Cria a tabela se não existir
         db.run(`
             CREATE TABLE IF NOT EXISTS usuarios (
@@ -25,6 +26,12 @@ const db = new sqlite3.Database(path.join(__dirname, 'bd_finance.db'), (err) => 
                 console.log('Tabela usuarios criada/verificada');
             }
         });
+
+        db.run(`ALTER TABLE usuarios ADD COLUMN salario REAL`, (err) => {
+        if (err && !err.message.includes("duplicate column")) {
+        console.error("Erro ao adicionar a coluna salario:", err.message);
+    }
+});
     }
 });
 
@@ -117,6 +124,52 @@ ipcMain.handle('login', (_, loginData) => {
             else resolve(null);
         });
     });
+});
+
+ipcMain.handle('cadastrar-despesa', (_, despesa) => {
+    return new Promise((resolve, reject) => {
+        const query = `INSERT INTO despesas (titulo, descricao, categoria, valor, id_usuario)
+                       VALUES (?, ?, ?, ?, ?)`;
+        db.run(query, [despesa.titulo, despesa.descricao, despesa.categoria, despesa.valor, despesa.id_usuario], function(err) {
+            if (err) reject(err.message);
+            else resolve({ id: this.lastID });
+        });
+    });
+});
+
+ipcMain.handle('listar-despesas', (_, id_usuario) => {
+    return new Promise((resolve, reject) => {
+        db.all("SELECT * FROM despesas WHERE id_usuario = ?", [id_usuario], (err, rows) => {
+            if (err) reject(err.message);
+            else resolve(rows);
+        });
+    });
+});
+
+ipcMain.handle('atualizar-salario', (event, { id, novoSalario }) => {
+    return new Promise((resolve, reject) => {
+        db.run(
+            `UPDATE usuarios SET salario = ? WHERE id_usuario = ?`,
+            [novoSalario, id],
+            function (err) {
+                if (err) {
+                    console.error("Erro ao atualizar salário:", err.message);
+                    reject(err.message);
+                } else {
+                    resolve("Salário atualizado com sucesso.");
+                }
+            }
+        );
+    });
+});
+
+ipcMain.handle('buscar-salario', (event, id_usuario) => {
+  return new Promise((resolve, reject) => {
+    db.get('SELECT salario FROM usuarios WHERE id_usuario = ?', [id_usuario], (err, row) => {
+      if (err) reject(err.message);
+      else resolve(row?.salario || 0);
+    });
+  });
 });
 
 module.exports = db;
