@@ -17,6 +17,7 @@ const dados = [
 let salarioTotal = 0;
 let despesasAtuais = [];
 
+
 const cardsContainer = document.getElementById('cards');
 
 function toggleSalaryInput() {
@@ -25,32 +26,31 @@ function toggleSalaryInput() {
 }
 
 function updateSalary() {
-  const newSalary = document.getElementById("new-salary").value;
-  if (newSalary && !isNaN(newSalary)) {
-    salarioTotal = parseFloat(newSalary);
-    document.getElementById("salary-input-container").style.display = "none";
-
-    // Atualiza salário no banco de dados
+  const newSalary = parseFloat(document.getElementById("new-salary").value);
+  
+  if (!isNaN(newSalary)) {
+    // Atualiza o salário no banco de dados (substitui o valor)
     window.api.atualizarSalario({
-      id: 1, // Substitua por id do usuário logado
-      novoSalario: salarioTotal
+      id: 1, // Substitua pelo ID do usuário logado
+      novoSalario: newSalary  // Envia o novo valor (não soma)
     }).then(() => {
-      atualizarSalarioRestante();
+      salarioTotal = newSalary; // Atualiza a variável local
+      document.getElementById("salary-amount").textContent = `R$ ${newSalary.toFixed(2)}`;
+      document.getElementById("salary-input-container").style.display = "none";
     }).catch(err => {
       alert("Erro ao atualizar salário: " + err);
     });
-
   } else {
-    alert("Por favor, insira um valor válido.");
+    alert("Insira um valor válido.");
   }
 }
 
 
 function atualizarSalarioRestante() {
   const totalGastos = despesasAtuais.reduce((soma, item) => soma + parseFloat(item.valor), 0);
-  const restante = salarioTotal - totalGastos;
+  const restante = salarioTotal - totalGastos; // Subtrai do salário atual
 
-  document.getElementById("salary-amount").textContent = `R$ ${restante.toFixed(2).replace('.', ',')}`;
+  document.getElementById("salary-remaining").textContent = `R$ ${restante.toFixed(2)}`;
 }
 
 

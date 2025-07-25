@@ -147,20 +147,16 @@ ipcMain.handle('listar-despesas', (_, id_usuario) => {
 });
 
 ipcMain.handle('atualizar-salario', (event, { id, novoSalario }) => {
-    return new Promise((resolve, reject) => {
-        db.run(
-            `UPDATE usuarios SET salario = ? WHERE id_usuario = ?`,
-            [novoSalario, id],
-            function (err) {
-                if (err) {
-                    console.error("Erro ao atualizar salário:", err.message);
-                    reject(err.message);
-                } else {
-                    resolve("Salário atualizado com sucesso.");
-                }
-            }
-        );
-    });
+  return new Promise((resolve, reject) => {
+    db.run(
+      `UPDATE usuarios SET salario = ? WHERE id_usuario = ?`,  // Substitui o valor
+      [novoSalario, id],  // Novo valor enviado
+      (err) => {
+        if (err) reject(err);
+        else resolve();
+      }
+    );
+  });
 });
 
 ipcMain.handle('buscar-salario', (event, id_usuario) => {
