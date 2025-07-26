@@ -88,11 +88,13 @@
         })
     })
 
-    app.on('window-all-closed', () => {
-        if (process.platform !== 'darwin') {
-        app.quit()
-        }
-    })
+   app.on('window-all-closed', () => {
+  // Limpar dados sensíveis
+  if (process.platform !== 'darwin') {
+    // Pode adicionar mais limpezas se necessário
+    app.quit();
+  }
+});
 
 
     ipcMain.handle('criar-usuario', (_, usuario) => {

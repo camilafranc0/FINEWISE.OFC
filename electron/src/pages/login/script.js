@@ -43,26 +43,23 @@ function login() {
     const dados = { email, senha: password };
 
     window.api.fazerLogin(dados)
-        .then(usuario => {
-            if (usuario) {
-                if (remember) {
-                    localStorage.setItem("email", email);
-                    localStorage.setItem("password", password);
-                    localStorage.setItem("id_usuario", usuario.id_usuario);
-                } else {
-                    localStorage.removeItem("email");
-                    localStorage.removeItem("password");
-                }
-
-                alert("Login realizado com sucesso!");
-                window.location.href = "../financas/registros.html";
-            } else {
-                alert("Email ou senha inválidos!");
-            }
-        })
-        .catch(err => {
-            alert("Erro ao fazer login: " + err);
-        });
+    .then(usuario => {
+      if (usuario) {
+        localStorage.setItem('idUsuarioLogado', usuario.id_usuario);
+        // Limpar outros dados se necessário
+        localStorage.removeItem('despesasCache');
+        
+        if (remember) {
+          localStorage.setItem("email", email);
+          localStorage.setItem("password", password);
+        } else {
+          localStorage.removeItem("email");
+          localStorage.removeItem("password");
+        }
+        
+        window.location.href = "../financas/registros.html";
+      }
+    });
 }
 
 }
