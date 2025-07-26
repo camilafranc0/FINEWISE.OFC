@@ -10,58 +10,83 @@ document.addEventListener("DOMContentLoaded", function () {
 
 const loginBtn = document.getElementById("login-btn").addEventListener("click", login);
 
-function login() {
+async function login() {
+    // Limpar mensagens de erro anteriores
+    document.getElementById("email-error").textContent = "";
+    document.getElementById("password-error").textContent = "";
+
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
     const remember = document.getElementById("remember").checked;
 
-
-    let isValid = true;
-
-    
+    // Validação básica dos campos
     if (!email) {
         document.getElementById("email-error").textContent = "O e-mail é obrigatório!";
-        isValid = false;
-    } else if (!validateEmail(email)) {
+        return;
+    }
+
+    if (!validateEmail(email)) {
         document.getElementById("email-error").textContent = "E-mail inválido!";
-        isValid = false;
-    } else {
-        document.getElementById("email-error").textContent = "";
+        return;
     }
 
     if (!password) {
         document.getElementById("password-error").textContent = "A senha é obrigatória!";
-        isValid = false;
-    } else if (password.length < 6) {
-        document.getElementById("password-error").textContent = "A senha deve ter pelo menos 6 caracteres!";
-        isValid = false;
-    } else {
-        document.getElementById("password-error").textContent = "";
+        return;
     }
 
-   if (isValid) {
-    const dados = { email, senha: password };
+    if (password.length < 6) {
+        document.getElementById("password-error").textContent = "A senha deve ter pelo menos 6 caracteres!";
+        return;
+    }
 
-    window.api.fazerLogin(dados)
-    .then(usuario => {
-      if (usuario) {
+    try {
+        // Mostrar indicador de carregamento (opcional)
+        const loginBtn = document.getElementById("login-btn");
+        loginBtn.disabled = true;
+        loginBtn.textContent = "Autenticando...";
+
+        // Fazer a chamada para a API de login
+        const usuario = await window.api.fazerLogin({ email, senha: password });
+
+        if (!usuario) {
+            throw new Error("Credenciais inválidas");
+        }
+
+        // Armazenar informações do usuário
         localStorage.setItem('idUsuarioLogado', usuario.id_usuario);
-        // Limpar outros dados se necessário
-        localStorage.removeItem('despesasCache');
         
         if (remember) {
-          localStorage.setItem("email", email);
-          localStorage.setItem("password", password);
+            localStorage.setItem("email", email);
+            localStorage.setItem("password", password);
         } else {
-          localStorage.removeItem("email");
-          localStorage.removeItem("password");
+            localStorage.removeItem("email");
+            localStorage.removeItem("password");
         }
-        
-        window.location.href = "../financas/registros.html";
-      }
-    });
-}
 
+        // Redirecionar para a página principal
+        window.location.href = "../financas/registros.html";
+
+    } catch (error) {
+        console.error("Erro no login:", error);
+        
+        // Mostrar mensagem de erro adequada
+        if (error.message.includes("Credenciais inválidas")) {
+           alert("E-mail ou senha incorretos. Tente novamente.");
+            
+        } else if (error.message.includes("timeout")) {
+            alert("A conexão com o servidor expirou. Verifique sua conexão com a internet e tente novamente.");
+        } else {
+            alert("Ocorreu um erro ao tentar fazer login. Por favor, tente novamente mais tarde.");
+        }
+    } finally {
+        // Restaurar estado do botão
+        const loginBtn = document.getElementById("login-btn");
+        if (loginBtn) {
+            loginBtn.disabled = false;
+            loginBtn.textContent = "Login";
+        }
+    }
 }
 
 function validateEmail(email) {
