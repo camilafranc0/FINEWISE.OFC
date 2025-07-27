@@ -2,6 +2,7 @@
 
 const registerBtn = document.getElementById("register-btn").addEventListener("click", register);
 
+
 function register() {
     const email = document.getElementById("email").value.trim();
     const fullName = document.getElementById("full-name").value.trim();

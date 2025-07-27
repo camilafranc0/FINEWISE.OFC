@@ -1,10 +1,14 @@
 // Variáveis globais
 let salarioTotal = 0;
 let despesasAtuais = [];
+let todasDespesas = []; // Armazenará todas as despesas para filtragem
 
 // Elementos da página
 const cardsContainer = document.getElementById('cards');
 const logoutBtn = document.getElementById('logout-btn');
+const searchInput = document.getElementById('search-input');
+const searchButton = document.getElementById('search-button');
+const btnAtualizar = document.getElementById('btn-atualizar').addEventListener('click', toggleSalaryInput);
 
 // Inicialização quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', async function() {
@@ -103,60 +107,93 @@ async function cadastrarNovaDespesa(form) {
     }
 }
 
-// Função para carregar despesas
+// Função para carregar despesas (atualizada)
 async function carregarDespesas() {
     try {
         const idUsuarioLogado = parseInt(localStorage.getItem('idUsuarioLogado'));
-        despesasAtuais = await window.api.listarDespesas(idUsuarioLogado);
+        todasDespesas = await window.api.listarDespesas(idUsuarioLogado);
+        despesasAtuais = [...todasDespesas]; // Cópia para filtragem
         
-        // Limpar e recriar os cards
-        cardsContainer.innerHTML = '';
-        
-        despesasAtuais.forEach(dado => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <div class="card-content">
-                    <h3>${dado.titulo}</h3>
-                    <p>${dado.descricao}</p>
-                </div>
-                <div class="card-right">
-                    <p><strong>R$ ${dado.valor.toFixed(2).replace('.', ',')}</strong></p>
-                    <span class="favorite">❤</span>
-                </div>
-            `;
-            cardsContainer.appendChild(card);
-        });
+        atualizarListaDespesas();
     } catch (err) {
         console.error('Erro ao carregar despesas:', err);
         throw err;
     }
 }
 
-// Função para atualizar salário
-async function updateSalary() {
-    const newSalaryInput = document.getElementById('new-salary');
-    const newSalary = parseFloat(newSalaryInput.value);
+// Nova função para filtrar despesas
+function filtrarDespesas(termo) {
+    if (!termo || termo.trim() === "") {
+        despesasAtuais = [...todasDespesas];
+    } else {
+        const termoLower = termo.toLowerCase();
+        despesasAtuais = todasDespesas.filter(despesa => 
+            despesa.titulo.toLowerCase().includes(termoLower) ||
+            (despesa.descricao && despesa.descricao.toLowerCase().includes(termoLower)) ||
+            despesa.categoria.toLowerCase().includes(termoLower)
+        );
+    }
+    atualizarListaDespesas();
+    atualizarCalculosFinanceiros();
+}
 
-    if (isNaN(newSalary)) {
-        alert('Insira um valor válido.');
+// Nova função para atualizar a lista de despesas na tela
+function atualizarListaDespesas() {
+    cardsContainer.innerHTML = "";
+
+    if (despesasAtuais.length === 0) {
+        cardsContainer.innerHTML = '<p class="no-results">Nenhuma despesa encontrada</p>';
         return;
     }
 
+    despesasAtuais.forEach(dado => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <div class="card-content">
+                <h3>${dado.titulo}</h3>
+                <p>${dado.descricao}</p>
+                <small class="card-category">${dado.categoria}</small>
+            </div>
+            <div class="card-right">
+                <p><strong>R$ ${dado.valor.toFixed(2).replace('.', ',')}</strong></p>
+                <span class="favorite">❤</span>
+            </div>
+        `;
+        cardsContainer.appendChild(card);
+    });
+}
+
+// Função para atualizar salário
+async function updateSalary() {
     try {
+        const newSalaryInput = document.getElementById('new-salary');
+        const newSalary = parseFloat(newSalaryInput.value);
+
+        // Validação do valor inserido
+        if (isNaN(newSalary) || newSalary <= 0) {
+            alert('Por favor, insira um valor válido para o salário.');
+            return;
+        }
+
         const idUsuarioLogado = parseInt(localStorage.getItem('idUsuarioLogado'));
+        
+        // Atualizar no banco de dados
         await window.api.atualizarSalario({
             id: idUsuarioLogado,
             novoSalario: newSalary
         });
 
+        // Atualizar variáveis e exibição
         salarioTotal = newSalary;
         atualizarExibicaoSalario();
         atualizarCalculosFinanceiros();
         
-        // Limpar e esconder o input
+        // Resetar o campo de input
         newSalaryInput.value = '';
         document.getElementById('salary-input-container').style.display = 'none';
+        
+        console.log('Salário atualizado com sucesso para:', newSalary);
     } catch (err) {
         console.error('Erro ao atualizar salário:', err);
         alert('Erro ao atualizar salário: ' + err.message);
@@ -206,8 +243,30 @@ function toggleSalaryInput() {
 // Configurar eventos após carregar os dados
 function configurarEventos() {
     // Configurar evento de atualização de salário
-    document.querySelector('.save-salary-button')?.addEventListener('click', updateSalary);
+    const saveSalaryBtn = document.querySelector('.save-salary-button');
+    if (saveSalaryBtn) {
+        saveSalaryBtn.addEventListener('click', updateSalary);
+    }
     
     // Configurar evento de toggle do input de salário
-    document.querySelector('.income-button')?.addEventListener('click', toggleSalaryInput);
+    const incomeButton = document.querySelector('.income-button');
+    if (incomeButton) {
+        incomeButton.addEventListener('click', toggleSalaryInput);
+    }
+    
+    // Configurar evento de busca
+    if (searchButton) {
+        searchButton.addEventListener('click', () => {
+            filtrarDespesas(searchInput.value);
+        });
+    }
+    
+    // Configurar busca ao pressionar Enter
+    if (searchInput) {
+        searchInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                filtrarDespesas(searchInput.value);
+            }
+        });
+    }
 }

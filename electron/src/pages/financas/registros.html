@@ -14,7 +14,7 @@
     <div class="salary">
       <span class="money-icon">💰</span>
       <span id="salary-amount">$ </span>
-      <button class="income-button" onclick="toggleSalaryInput()">Atualizar</button>
+      <button class="income-button" id="btn-atualizar" >Atualizar</button>
     </div>
     <div id="salary-input-container" style="display: none; margin-top: 0.5rem;">
       <input type="number" id="new-salary" placeholder="Novo salário" class="salary-input" />
@@ -29,8 +29,7 @@
   </div>
 
   <div>
-      Sálario restante: <strong id="salary-remaining">$ 54.54</strong>
-      <button>Renda 1</button>
+      Sálario restante: <strong id="salary-remaining">R$ 54.54</strong>
     </div>
   </div>
 
@@ -46,12 +45,12 @@
 <body>
   <header>
     SUAS FINANÇAS 💲
-    <button class="logout-btn" id="logout-btn">Sair</button>
+    <button class="logout-btn" id="logout-btn" >Sair</button>
   </header>
 
   <div class="search-bar">
-    <input type="text" placeholder="Procure os seus gastos.">
-    <button class="search-button">🔍</button>
+    <input type="text" id="search-input" placeholder="Procure os seus gastos.">
+    <button class="search-button" id="search-button">🔍</button>
   </div>
   
 
