@@ -9,6 +9,7 @@ const logoutBtn = document.getElementById('logout-btn');
 const searchInput = document.getElementById('search-input');
 const searchButton = document.getElementById('search-button');
 const btnAtualizar = document.getElementById('btn-atualizar').addEventListener('click', toggleSalaryInput);
+const btnSalvar = document.getElementById('btn-salvar').addEventListener('click', updateSalary);
 
 // Inicialização quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', async function() {
@@ -157,7 +158,7 @@ function atualizarListaDespesas() {
             </div>
             <div class="card-right">
                 <p><strong>R$ ${dado.valor.toFixed(2).replace('.', ',')}</strong></p>
-                <span class="favorite">❤</span>
+                
             </div>
         `;
         cardsContainer.appendChild(card);

@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Suas Finanças</title>
   <link rel="stylesheet" href="style_registro.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
 </head>
 <footer class="footer">
   </div>
@@ -18,7 +20,7 @@
     </div>
     <div id="salary-input-container" style="display: none; margin-top: 0.5rem;">
       <input type="number" id="new-salary" placeholder="Novo salário" class="salary-input" />
-      <button class="save-salary-button" onclick="updateSalary()">Salvar</button>
+      <button class="save-salary-button" id="btn-salvar">Salvar</button>
     </div>
     
   </div>
@@ -45,12 +47,13 @@
 <body>
   <header>
     SUAS FINANÇAS 💲
-    <button class="logout-btn" id="logout-btn" >Sair</button>
+    
+    <button class="logout-btn" id="logout-btn" ><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
   </header>
 
   <div class="search-bar">
-    <input type="text" id="search-input" placeholder="Procure os seus gastos.">
-    <button class="search-button" id="search-button">🔍</button>
+    <input type="text" id="search-input" placeholder="Procure os seus gastos">
+    <button class="search-button" id="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
   </div>
   
 

@@ -14,7 +14,7 @@
     background-color: #145c3c;
     color: white;
     text-align: center;
-    padding: 1.5rem;
+    padding: 1.4rem;
     font-size: 2rem;
     font-weight: bold;
     position: sticky;
@@ -274,6 +274,7 @@
   
   .modal-content {
     background-color: #059259;
+    width: 400px;
     margin: 10% auto;
     padding: 20px;
     width: 300px;
@@ -283,23 +284,30 @@
   
   .modal-content h3 {
     margin-top: 0;
-    font-size: 18px;
+    margin-bottom: 10px;
+    font-size: 20px;
     color: white;
     text-align: center;
+  }
+
+  .modal-content p{
+    color: #fff;
   }
   
   .modal-content input {
     width: 100%;
+    margin-top: 5px;
     margin-bottom: 10px;
-    padding: 8px;
+    padding: 10px 5px;
     border-radius: 6px;
     border: 1px solid #ccc;
+    outline: none;
   
   }
   
   .modal-content button[type="submit"] {
-    width: 50%;
-    padding: 3px;
+    width: 80%;
+    padding: 8px 0px;
     background-color: #f8fafc;
     border: none;
     color: #059259;
@@ -307,11 +315,14 @@
     cursor: pointer;
     display: block;
     margin: 0 auto;
+    font-size: 16px;
+    font-weight:  700;
   }
   #financeForm label {
-    color: #26422f;
+    color: #ffffff;
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 10px;
+    
   }
   
   .close {
@@ -327,17 +338,19 @@
   }
   
   .search-bar input {
-    padding: 6px 10px;
+    padding: 15px 10px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #1b7e51;
     border-radius: 6px;
     flex: 1;
+    outline: none;
+    
   }
   
   .search-button {
-    padding: 6px 12px;
+    padding: 15px 20px;
     font-size: 14px;
-    background-color: #145c3c;
+    background-color:  #1b7e51;
     color: white;
     border: none;
     border-radius: 6px;
@@ -346,7 +359,7 @@
   }
   
   .search-button:hover {
-    background-color: #145c3c;
+    opacity: 0.9;
   }
 
   /* Container principal dos botões de filtro */
@@ -517,4 +530,32 @@
 
   
   
-  
+.logout-btn {
+  background-color: #1b7e51; /* Vermelho para ação de saída */
+  color: white;
+  border: none;
+  border-radius: 50%; /* Formato circular */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  position: fixed; /* Posicionamento fixo */
+  top: 20px;
+  right: 20px;
+  z-index: 1000; /* Garante que fique acima de outros elementos */
+}
+
+.logout-btn:hover {
+  opacity: 0.9; /* Vermelho mais escuro no hover */
+  transform: scale(1.04); /* Efeito de zoom */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.logout-btn i {
+  font-size: 18px;
+  color: #fff;
+} 
