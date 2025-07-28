@@ -2,6 +2,7 @@
 let salarioTotal = 0;
 let despesasAtuais = [];
 let todasDespesas = []; // Armazenará todas as despesas para filtragem
+let categoriaAtiva = "Todas"; // Nova variável para controlar o filtro ativo
 
 // Elementos da página
 const cardsContainer = document.getElementById('cards');
@@ -113,7 +114,13 @@ async function carregarDespesas() {
     try {
         const idUsuarioLogado = parseInt(localStorage.getItem('idUsuarioLogado'));
         todasDespesas = await window.api.listarDespesas(idUsuarioLogado);
-        despesasAtuais = [...todasDespesas]; // Cópia para filtragem
+        
+        // Aplicar filtro ativo se houver
+        if (categoriaAtiva && categoriaAtiva !== "Todas") {
+            despesasAtuais = todasDespesas.filter(d => d.categoria === categoriaAtiva);
+        } else {
+            despesasAtuais = [...todasDespesas];
+        }
         
         atualizarListaDespesas();
     } catch (err) {
@@ -122,20 +129,63 @@ async function carregarDespesas() {
     }
 }
 
-// Nova função para filtrar despesas
+// Nova função para filtrar despesas por termo de busca
 function filtrarDespesas(termo) {
     if (!termo || termo.trim() === "") {
-        despesasAtuais = [...todasDespesas];
+        // Se não há termo, aplica apenas o filtro de categoria
+        if (categoriaAtiva && categoriaAtiva !== "Todas") {
+            despesasAtuais = todasDespesas.filter(d => d.categoria === categoriaAtiva);
+        } else {
+            despesasAtuais = [...todasDespesas];
+        }
     } else {
         const termoLower = termo.toLowerCase();
+        // Aplica filtro combinado (categoria + busca)
         despesasAtuais = todasDespesas.filter(despesa => 
-            despesa.titulo.toLowerCase().includes(termoLower) ||
+            (categoriaAtiva === "Todas" || despesa.categoria === categoriaAtiva) &&
+            (despesa.titulo.toLowerCase().includes(termoLower) ||
             (despesa.descricao && despesa.descricao.toLowerCase().includes(termoLower)) ||
-            despesa.categoria.toLowerCase().includes(termoLower)
+            despesa.categoria.toLowerCase().includes(termoLower))
         );
     }
     atualizarListaDespesas();
     atualizarCalculosFinanceiros();
+}
+
+// Nova função para filtrar por categoria
+async function filtrarPorCategoria(categoria) {
+    try {
+        const idUsuarioLogado = parseInt(localStorage.getItem('idUsuarioLogado'));
+        categoriaAtiva = categoria;
+        
+        // Aplicar filtro localmente (mais rápido que chamar o banco novamente)
+        if (categoria === "Todas") {
+            despesasAtuais = [...todasDespesas];
+        } else {
+            despesasAtuais = todasDespesas.filter(d => d.categoria === categoria);
+        }
+        
+        atualizarListaDespesas();
+        atualizarCalculosFinanceiros();
+    } catch (error) {
+        console.error('Erro ao filtrar por categoria:', error);
+        alert('Erro ao filtrar despesas');
+    }
+}
+
+// Função para limpar todos os filtros
+async function limparFiltros() {
+    // Remover classe ativa de todos os botões
+    document.querySelectorAll('.left-buttons button').forEach(btn => btn.classList.remove('active'));
+    
+    // Resetar categoria ativa
+    categoriaAtiva = "Todas";
+    
+    // Resetar busca
+    if (searchInput) searchInput.value = '';
+    
+    // Recarregar despesas sem filtros
+    await carregarDespesas();
 }
 
 // Nova função para atualizar a lista de despesas na tela
@@ -158,7 +208,6 @@ function atualizarListaDespesas() {
             </div>
             <div class="card-right">
                 <p><strong>R$ ${dado.valor.toFixed(2).replace('.', ',')}</strong></p>
-                
             </div>
         `;
         cardsContainer.appendChild(card);
@@ -269,5 +318,26 @@ function configurarEventos() {
                 filtrarDespesas(searchInput.value);
             }
         });
+    }
+    
+    // Configurar filtros por categoria
+    const botoesCategoria = document.querySelectorAll('.left-buttons button:not(.arrow-button)');
+    botoesCategoria.forEach(botao => {
+        botao.addEventListener('click', () => {
+            // Remover classe ativa de todos os botões
+            botoesCategoria.forEach(btn => btn.classList.remove('active'));
+            
+            // Adicionar classe ativa ao botão clicado
+            botao.classList.add('active');
+            
+            // Filtrar despesas
+            filtrarPorCategoria(botao.textContent.trim());
+        });
+    });
+    
+    // Configurar botão limpar filtro
+    const limparFiltroBtn = document.querySelector('.arrow-button');
+    if (limparFiltroBtn) {
+        limparFiltroBtn.addEventListener('click', limparFiltros);
     }
 }

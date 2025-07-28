@@ -559,3 +559,16 @@
   font-size: 18px;
   color: #fff;
 } 
+
+.modal-select {
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding: 10px 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #333;
+}

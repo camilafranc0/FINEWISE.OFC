@@ -12,4 +12,6 @@ contextBridge.exposeInMainWorld("api", {
 
   buscarSalario: (id_usuario) =>
     ipcRenderer.invoke("buscar-salario", id_usuario),
+
+   filtrarDespesasPorCategoria: (dados) => ipcRenderer.invoke("filtrarDespesasPorCategoria", dados)
 });
