@@ -1,9 +1,19 @@
-* {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
   }
+
+input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;
+    
+}
+input[type=number] { 
+   -moz-appearance: textfield;
+   appearance: textfield;
+
+}
   
   body {
     background-color: #f4f4f4;
@@ -20,6 +30,7 @@
     position: sticky;
     top: 0;
   }
+  
   
   
   .search-bar {
@@ -172,8 +183,8 @@
   }
   
   .footer-button {
-    background-color: white;
-    color: #145c3c;
+    background-color: #59a570;;
+    color: #fff;
     border: none;
     border-radius: 6px;
     padding: 0.4rem 0.8rem;
@@ -182,6 +193,19 @@
     cursor: pointer;
     transition: background-color 0.3s;
   }
+
+.save-salary-button{
+    background-color: #59a570;
+    width: 100px;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 0.4rem;
+    margin-left: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
   
   .footer-button:hover {
     background-color: #e6f2e6;
@@ -242,25 +266,18 @@
   }
 
   .salary-input {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    padding: 8px 5px;
+    border: 1px solid #59a570;
+    border-radius: 6px;
     margin-right: 8px;
-    width: 100px;
+    width: 150px;
+    outline: none;
   }
   
-  .save-salary-button {
-    background-color: #1c5e41;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
+ 
   
   .save-salary-button:hover {
-    background-color: #167d54;
+    opacity: 0.9;
   }
   
   .modal {
@@ -402,9 +419,10 @@
 
 /* Botão da direita */
 .right-button .add-button {
-  font-size: 13px;
-  padding: 6px 12px;
+  font-size: 15px;
+  padding: 11px 12px;
   border-radius: 8px;
+  margin-bottom: 4px;
   background-color: #59a570;
   color: #fff;
   border: none;
@@ -413,7 +431,7 @@
 }
 
 .right-button .add-button:hover {
-  background-color: #59a570;
+  opacity: 0.9;
 }
 
 @media (max-width: 600px) {
@@ -488,10 +506,13 @@
 
 /* Botão de atualizar salário */
 .income-button {
-  padding: 6px 12px;
-  font-size: 13px;
+  padding: 7px 12px;
+  width: 120px;
+  font-size: 15px;
   background-color: #59a570;
   color: #fff;
+
+  font-weight: 700;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -499,7 +520,7 @@
 }
 
 .income-button:hover {
-  background-color: #59a570;
+  opacity: 0.9;
 }
 
 /* Responsivo */
@@ -572,3 +593,36 @@
   background-color: #ffffff;
   color: #333;
 }
+
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.edit-btn, .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.3rem;
+}
+
+.edit-btn {
+    color: #145c3c;
+}
+
+.delete-btn {
+    color: #d9534f;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+    opacity: 0.8;
+}
+
+.categoriaText{
+  color: #521b1b;
+  font-weight: 700;
+  font-size: 14px;
+}
+/* Adicione ao seu CSS */

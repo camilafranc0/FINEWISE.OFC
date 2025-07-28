@@ -221,4 +221,37 @@ ipcMain.handle(
     });
   }
 );
+
+// Adicione esses handlers no ipcMain
+ipcMain.handle("excluir-despesa", (_, id) => {
+    return new Promise((resolve, reject) => {
+        db.run("DELETE FROM despesas WHERE id = ?", [id], function(err) {
+            if (err) reject(err.message);
+            else resolve(this.changes > 0);
+        });
+    });
+});
+
+ipcMain.handle("editar-despesa", (_, despesa) => {
+    return new Promise((resolve, reject) => {
+        const query = `UPDATE despesas 
+                      SET titulo = ?, descricao = ?, categoria = ?, valor = ?
+                      WHERE id = ? AND id_usuario = ?`;
+        db.run(
+            query,
+            [
+                despesa.titulo,
+                despesa.descricao,
+                despesa.categoria,
+                despesa.valor,
+                despesa.id,
+                despesa.id_usuario
+            ],
+            function(err) {
+                if (err) reject(err.message);
+                else resolve(this.changes > 0);
+            }
+        );
+    });
+});
 module.exports = db;

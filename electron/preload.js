@@ -13,5 +13,8 @@ contextBridge.exposeInMainWorld("api", {
   buscarSalario: (id_usuario) =>
     ipcRenderer.invoke("buscar-salario", id_usuario),
 
-   filtrarDespesasPorCategoria: (dados) => ipcRenderer.invoke("filtrarDespesasPorCategoria", dados)
+   filtrarDespesasPorCategoria: (dados) => ipcRenderer.invoke("filtrarDespesasPorCategoria", dados),
+
+  excluirDespesa: (id) => ipcRenderer.invoke("excluir-despesa", id),
+  editarDespesa: (dados) => ipcRenderer.invoke("editar-despesa", dados)
 });
